@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/george/Downloads/sem2/poo/projects/1/lista_dublu_inltantuita.cpp
+lista_dublu_inltantuita.h
+/home/george/Downloads/sem2/poo/projects/1/lista_dublu_inltantuita.h
+
+/home/george/Downloads/sem2/poo/projects/1/lista_dublu_inltantuita.h
+nod.cpp
+/home/george/Downloads/sem2/poo/projects/1/nod.cpp
+iostream
+-
+
+/home/george/Downloads/sem2/poo/projects/1/main.cpp
+lista_dublu_inltantuita.h
+/home/george/Downloads/sem2/poo/projects/1/lista_dublu_inltantuita.h
+
+/home/george/Downloads/sem2/poo/projects/1/nod.cpp
+iostream
+-
+

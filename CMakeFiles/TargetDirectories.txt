@@ -1,3 +1,0 @@
-/home/george/Downloads/sem2/poo/projects/1/CMakeFiles/rebuild_cache.dir
-/home/george/Downloads/sem2/poo/projects/1/CMakeFiles/edit_cache.dir
-/home/george/Downloads/sem2/poo/projects/1/CMakeFiles/project1.dir

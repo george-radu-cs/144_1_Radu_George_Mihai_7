@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/project1.dir/nod.cpp.o CMakeFiles/project1.dir/lista_dublu_inltantuita.cpp.o CMakeFiles/project1.dir/main.cpp.o -o project1 

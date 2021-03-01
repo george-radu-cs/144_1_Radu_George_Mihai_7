@@ -1,13 +1,27 @@
 # Grupa 144
 
-codul ruleaza
-probleme
-e clunky ..
-se poate multtt mai bine
+## Cerinta
+Tema 7. Clasa ”Lista_dublu_inlantuita”
+Se considera Class Nod{ int info; Nod* prev, next;}
+- constructori de inițializare și parametrizati pentru clasa Nod;
+- destructor pentru clasa Nod;
+Clasa Lista_dublu_inlantuita are:
+- doi membri privati „Nod*” reprezentând primul și ultimul element;
+- metoda publica de adaugare a unui element pe o poziție;
+- supraincarcare a operatorului >>, realizata prin utilizarea succesiva a metodei
+decarata anterior;
+- supraincarcare a operatorului << pentru afisarea listei in ambele sensuri, in
+aceeasi funcție;
+- metoda publica de stergere a unui element de pe o poziție;
+- supraincarcarea operatorului +, care sa efectueze concatenarea a doua liste
+dublu inlantuite, rezultand într-o noua lista dublu inlantuita.
+Codul ruleaza.
 
--> am schimbat la operatori <<  si  >> sa fie trimisi prin referinta
-daca cineva construieste listele prin pointeri atunci va trebui sa faca dereferinta
-suna mai bine asa, nu lasa doua functii pentru aceeasi chesti lol
+## notite
+Am facut cateva teste si am acoperit toate cazurile.
 
--> overloadul pe operatorul+ e putin weird, desi asa ar avea sens
-idee? incearca sa constuiesti lista de la zero
+probleme -> mai sunt cateva TODO uri
+
+Mai trebuie facut un meniu interactiv.
+
+TODO De asemenea e cod si in romana si engleza.. schimba asta mai tarizu.

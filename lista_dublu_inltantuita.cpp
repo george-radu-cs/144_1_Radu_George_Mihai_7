@@ -1,24 +1,32 @@
 #include "lista_dublu_inltantuita.h"
 
+/* metoda publica de adaugare a unui element pe o poziție */
 void ListaDubluInlantuita::adaugareElement(int el, int poz) {
-  Nod *newNode = new Nod(el);
+  if (poz < 0) /* vom considera poz negative drept primul element */
+    poz = 0;
+
+  Nod *newNode = new Nod(el); /* nodul care trebuie adaugat in lista */
+  /* vom cauta nodul de la pozitia poz folosind pointerul indirect */
   Nod *indirect = m_head;
-  if (indirect == nullptr || poz == 0) {
+  if (indirect == nullptr || poz == 0) { /* adauga nod la inceputul listei */
     newNode->setNext(m_head);
     if (m_head != nullptr)
       m_head->setPrev(newNode);
     m_head = newNode;
     return;
   }
-  while (indirect->getNext() != nullptr && poz != 0) {
-    indirect = indirect->getNext();
-    --poz;
-  }
+  /* in cazul in care avem un singur nod in lista(adica headul) atunci noul nod
+   * va reprezenta tailul */
   if (m_tail == nullptr) {
     m_tail = newNode;
     m_head->setNext(m_tail);
     m_tail->setPrev(m_head);
     return;
+  }
+
+  while (indirect->getNext() != nullptr && poz != 0) {
+    indirect = indirect->getNext();
+    --poz;
   }
   /* if (indirect->getPrev() != nullptr) { */
   if (poz == 0) { /* punem nr la poz corecta */
@@ -37,37 +45,48 @@ void ListaDubluInlantuita::adaugareElement(int el, int poz) {
 
 /* metoda publica de stergere a unui element de pe o poziție */
 void ListaDubluInlantuita::stergeElement(int poz) {
-  if (poz == 0) { /* e chiar headul */
-    m_head->getNext()->setPrev(nullptr);
-    m_head = m_head->getNext();
-    return; /* vrem sa nu mergem mai departe poate muti acest if? TODO? */
+  if (poz < 0) {
+    std::cout
+        << "Pozitia in lista nu poate fi negativa. Nu s-au produs modificari\n";
+    return;
   }
+  /* vom cauta nodul de la pozitia poz folosind pointerul indirect */
   Nod *indirect = m_head;
-  while (indirect != nullptr && poz != 0) {
+  /* ajungem la nodul de la poz, sau in cazul in care pozitia data ca input este
+   * mai mare decat lungimea listei vom sterge ultimul element */
+  int nr_noduri{0};
+  while (indirect != nullptr && poz != nr_noduri) {
     indirect = indirect->getNext();
-    --poz;
+    nr_noduri++;
   }
-  if (indirect == m_tail) {
-    m_tail->getPrev()->setNext(nullptr);
+  if (indirect == m_head) { /* e chiar headul */
+    m_head = m_head->getNext();
+    m_head->setPrev(nullptr);
+  } else if (indirect == m_tail) { /* trebuie sa stergem coada */
     m_tail = m_tail->getPrev();
-  } else {
+    m_tail->setNext(nullptr);
+  } else { /* stergem un nod din mijloc */
     indirect->getNext()->setPrev(indirect->getPrev());
     indirect->getPrev()->setNext(indirect->getNext());
   }
+  delete indirect;
 }
 
 std::istream &operator>>(std::istream &in, ListaDubluInlantuita &ldi) {
-  /* am putea introduce nr de noduri pe care sa le afisam mai intai? */
-  std::cout << "Nr de noduri: ";
-  int nr_noduri;
-  in >> nr_noduri;
+  /* rugam utilizatorul sa introduca nr de noduri ale listei */
+  int nr_noduri{0};
+  while (nr_noduri < 2) {
+    std::cout << "Nr de noduri(minim 2): ";
+    in >> nr_noduri;
+  }
+
   int i{0};
-  int tempInt;
+  int tempInt; /* vom citi valorile nodurilor in aceasta variabila */
+
   while (i < nr_noduri) {
-    /* Nod *temp = new Nod(); */
+    /* anuntam utilizatorul ce nod introduce */
     std::cout << "Nodul " << i << ": ";
     in >> tempInt;
-    /* temp->setInfo(tempInt); */
     ldi.adaugareElement(tempInt, i + 1);
     ++i;
   }
@@ -75,27 +94,49 @@ std::istream &operator>>(std::istream &in, ListaDubluInlantuita &ldi) {
   return in;
 }
 
+/* afisam lista in ambele sensuri */
 std::ostream &operator<<(std::ostream &out, ListaDubluInlantuita &ldi) {
   Nod *indirect = ldi.getHead();
   out << "Lista de la cap la coada: ";
   while (indirect != nullptr) {
-    out << indirect->getInfo() << " ";
+    out << indirect->getInfo() << "->";
     indirect = indirect->getNext();
   }
-  out << "\nLista de la coada la cap: ";
+  out << "\b\b  \nLista de la coada la cap: ";
   indirect = ldi.getTail();
   while (indirect != nullptr) {
-    out << indirect->getInfo() << " ";
+    out << indirect->getInfo() << "->";
     indirect = indirect->getPrev();
   }
-  out << '\n';
+  out << "\b\b  \n";
 
   return out;
 }
 
 ListaDubluInlantuita operator+(ListaDubluInlantuita &l1,
                                ListaDubluInlantuita &l2) {
-  l1.m_tail->setNext(l2.m_head);
-  l2.m_head->setPrev(l1.m_tail);
-  return ListaDubluInlantuita(l1.m_head, l2.m_tail);
+  /* construim o noua lista, headul va fi headul de la l1, si tailul va fi
+   * tailul de la l2, de asemenea va trebui sa aduagam legatura dintre
+   * tailul lui l1 si headul lui l2*/
+  Nod *newHead, *newTail;
+  newHead = new Nod(l1.getHead()->getInfo());
+  newTail = new Nod(l2.getTail()->getInfo());
+  ListaDubluInlantuita rez = ListaDubluInlantuita(newHead, newTail);
+
+  /* adaugam elementele lui l2 */
+  Nod *indirect = l2.getTail()->getPrev();
+  while (indirect != nullptr) {
+    rez.adaugareElement(indirect->getInfo(), 1);
+    indirect = indirect->getPrev();
+  }
+
+  /* adaugam elementele lui l1 */
+  indirect = l1.getTail();
+  /* avem deja adaugat headul in lista motiv pentru care nu comparam cu null */
+  while (indirect != l1.getHead()) {
+    rez.adaugareElement(indirect->getInfo(), 1);
+    indirect = indirect->getPrev();
+  }
+
+  return rez; /* returnam lista */
 }

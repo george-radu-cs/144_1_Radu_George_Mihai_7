@@ -24,4 +24,7 @@ probleme -> mai sunt cateva TODO uri
 
 Mai trebuie facut un meniu interactiv.
 
-TODO De asemenea e cod si in romana si engleza.. schimba asta mai tarizu.
+TODO De asemenea e cod si in romana si engleza.. schimba asta mai tarziu.
+
+TODO De asemenea modifica CMakeLists.txt pentru a face 2 executabile.. unul
+pentru teste si unul pentru codul main.

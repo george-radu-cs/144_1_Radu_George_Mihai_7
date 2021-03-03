@@ -10,21 +10,41 @@ Clasa Lista_dublu_inlantuita are:
 - metoda publica de adaugare a unui element pe o poziție;
 - supraincarcare a operatorului >>, realizata prin utilizarea succesiva a metodei
 decarata anterior;
-- supraincarcare a operatorului << pentru afisarea listei in ambele sensuri, in
+- supraincarcare a operatorului $<<$ pentru afisarea listei in ambele sensuri, in
 aceeasi funcție;
 - metoda publica de stergere a unui element de pe o poziție;
 - supraincarcarea operatorului +, care sa efectueze concatenarea a doua liste
 dublu inlantuite, rezultand într-o noua lista dublu inlantuita.
 Codul ruleaza.
 
+## compilare si rulare program
+
+> cmake CMakeLists.txt && make
+
+Se vor crea 2 executabile:
+- unul pentru teste
+> ./teste
+- unul pentru programul interactiv
+> ./project1
+
+## detalii clasa ListaDubluInlantuita
+- indexul pentru noduri incepe de la 0 pentru a ramane consistenti cu alte
+structuri de date deja existente in C/C++ 
+- la adaugareElement & stergeElement daca avem pozitie negativa consideram ca
+vrem sa adaugam la inceput de lista, iar daca avem poz mai mare decat lungimea
+listei vom considera ca adaugam la final
+
 ## notite
 Am facut cateva teste si am acoperit toate cazurile.
 
-probleme -> mai sunt cateva TODO uri
+- Clasa nod este prea mica pentru a o separa in doua fisiere .h si .cpp
 
-Mai trebuie facut un meniu interactiv.
+## TODO
+- termina meniul interactiv
+- modifica functiile de la ListaDubluInlantuita operator$<<$ pentru a permite
+suprascrierea (sterge elementele din lista curenta si dupa citeste noua lista),
+iar pentru operatorul + modifica astfel incat sa permita adunarea dintre o lista
+cu n>0 elemente si una goala de ex.
+- creeaza o functie pentru a returna lungimea listei
+- De asemenea e cod si in romana si engleza.. schimba asta mai tarziu.
 
-TODO De asemenea e cod si in romana si engleza.. schimba asta mai tarziu.
-
-TODO De asemenea modifica CMakeLists.txt pentru a face 2 executabile.. unul
-pentru teste si unul pentru codul main.

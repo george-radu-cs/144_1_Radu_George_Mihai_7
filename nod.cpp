@@ -22,7 +22,12 @@ public:
     m_prev = prev;
     m_next = next;
   }
-  ~Nod() { /* this nullptr; */
+  Nod(const Nod &n) : m_info{n.m_info}, m_prev{n.m_prev}, m_next{n.m_next} {}
+  ~Nod() {
+    /* int este o primitva, iar celelalte var sunt pointeri catre alte noduri
+     * nu am vrea sa le stergem atunci cand stergem acest nod, intrucat nu asta
+     * ar fi intentia, poate mai avem nevoie de ele sau sunt folosite in alta
+     * parte, in alt context etc. */
   }
 
   int getInfo() { return m_info; }

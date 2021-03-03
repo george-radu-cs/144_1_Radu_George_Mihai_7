@@ -46,9 +46,7 @@ void ListaDubluInlantuita::adaugareElement(int el, int poz) {
 /* metoda publica de stergere a unui element de pe o poziție */
 void ListaDubluInlantuita::stergeElement(int poz) {
   if (poz < 0) {
-    std::cout
-        << "Pozitia in lista nu poate fi negativa. Nu s-au produs modificari\n";
-    return;
+    poz = 0;
   }
   /* vom cauta nodul de la pozitia poz folosind pointerul indirect */
   Nod *indirect = m_head;
@@ -102,6 +100,8 @@ std::ostream &operator<<(std::ostream &out, ListaDubluInlantuita &ldi) {
     out << indirect->getInfo() << "->";
     indirect = indirect->getNext();
   }
+  /* folosim \b\b urmat de doua spatii pentru a inlocui sageata -> cu spatiu
+   * pentru ultimul nod care nu mai duce catre alt nod */
   out << "\b\b  \nLista de la coada la cap: ";
   indirect = ldi.getTail();
   while (indirect != nullptr) {
@@ -113,20 +113,20 @@ std::ostream &operator<<(std::ostream &out, ListaDubluInlantuita &ldi) {
   return out;
 }
 
-ListaDubluInlantuita operator+(ListaDubluInlantuita &l1,
-                               ListaDubluInlantuita &l2) {
+ListaDubluInlantuita &operator+(ListaDubluInlantuita &l1,
+                                ListaDubluInlantuita &l2) {
   /* construim o noua lista, headul va fi headul de la l1, si tailul va fi
    * tailul de la l2, de asemenea va trebui sa aduagam legatura dintre
    * tailul lui l1 si headul lui l2*/
   Nod *newHead, *newTail;
   newHead = new Nod(l1.getHead()->getInfo());
   newTail = new Nod(l2.getTail()->getInfo());
-  ListaDubluInlantuita rez = ListaDubluInlantuita(newHead, newTail);
+  ListaDubluInlantuita *rez = new ListaDubluInlantuita(newHead, newTail);
 
   /* adaugam elementele lui l2 */
   Nod *indirect = l2.getTail()->getPrev();
   while (indirect != nullptr) {
-    rez.adaugareElement(indirect->getInfo(), 1);
+    rez->adaugareElement(indirect->getInfo(), 1);
     indirect = indirect->getPrev();
   }
 
@@ -134,9 +134,9 @@ ListaDubluInlantuita operator+(ListaDubluInlantuita &l1,
   indirect = l1.getTail();
   /* avem deja adaugat headul in lista motiv pentru care nu comparam cu null */
   while (indirect != l1.getHead()) {
-    rez.adaugareElement(indirect->getInfo(), 1);
+    rez->adaugareElement(indirect->getInfo(), 1);
     indirect = indirect->getPrev();
   }
 
-  return rez; /* returnam lista */
+  return *rez; /* returnam lista */
 }

@@ -45,8 +45,8 @@ public:
 
   /* supraincarcarea operatorului +, care sa efectueze concatenarea a doua
    * liste dublu inlantuite, rezultand într-o noua lista dublu inlantuita */
-  friend ListaDubluInlantuita operator+(ListaDubluInlantuita &l1,
-                                        ListaDubluInlantuita &l2);
+  friend ListaDubluInlantuita &operator+(ListaDubluInlantuita &l1,
+                                         ListaDubluInlantuita &l2);
 };
 
 #endif

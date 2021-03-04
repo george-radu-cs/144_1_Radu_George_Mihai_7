@@ -12,14 +12,15 @@ int main() {
       {"adaugare_nod", Comenzi::COMANDA_ADAUGARE_NOD},
       {"sterge_nod", Comenzi::COMANDA_STERGE_NOD},
       {"aduna_2_liste", Comenzi::COMANDA_ADUNARE_LDI},
+      {"lungime_lista", Comenzi::COMANDA_LUNGIME_LISTA},
       {"afiseaza_lista", Comenzi::COMANDA_AFISARE_LISTA},
       {"STOP", Comenzi::COMANDA_STOP_PROGRAM}};
 
   /* in programul interactiv este greu sa construim variabile dinamic, drept
    * workaround vom folosi un array de liste, si vom ruga userul sa spuna de la
    * inceput cate liste va dori sa foloseasca, listele vor fi indexate pentru
-   * user de la 1 pentru surinta sa */
-  int nr_ldi;
+   * user de la 1 pentru usurinta sa */
+  int nr_ldi; /* nr de liste */
   std::cout
       << "Introduceti nr. max de liste dublu inltantuite pe care doriti sa le "
          "folositi\n(este ok daca nu le veti folosi pe toate pana la final): ";
@@ -43,13 +44,14 @@ int main() {
     while (!inputComandaFormatCorect) {
       std::cout << "\nComenzi "
                    "posibile:\n->creare_lista\n->adaugare_nod\n->sterge_nod\n->"
-                   "aduna_2_liste\n->afiseaza_lista\n->STOP\n"
+                   "aduna_2_liste\n->lungime_lista\n->afiseaza_lista\n->STOP\n"
                    "Introduceti comanda dorita: ";
       std::cin >> comanda;
       inputComandaFormatCorect = (mapComenzi.find(comanda) != mapComenzi.end());
     }
 
     int index_ldi{-1};
+    /* ce liste vom folosi pentru adunarea listelor */
     int index_ldi_1{-1};
     int index_ldi_2{-1};
     int index_ldi_rez{-1};
@@ -58,14 +60,9 @@ int main() {
     case Comenzi::COMANDA_CREARE_LISTA:
       /* citim indexul listei din array pe care vom lucra */
       while (index_ldi < 1 || index_ldi > nr_ldi) {
-        std::cout << "Ce lista doriti sa afisati? ([1," << nr_ldi << "]) ";
+        std::cout << "Ce lista doriti sa creati? ([1," << nr_ldi << "]) ";
         std::cin >> index_ldi;
       }
-      /* TODO vezi poate suprascrii aici lista,
-       * o stergi pe cea anterioara si dupa citesti */
-      if (ldi_created[index_ldi - 1])
-        std::cout << "Lista exista deja, ati vrut sa adaugati/stergeti noduri "
-                     "din lista?\n";
 
       std::cin >> ldi[index_ldi - 1];
       ldi_created[index_ldi - 1] = true;
@@ -83,7 +80,7 @@ int main() {
         int el, poz;
         std::cout << "Valoare nodului pe care doriti sa il inserati: ";
         std::cin >> el;
-        std::cout << "La ce pozitie doriti sa inserati nodul? ";
+        std::cout << "Pozitia la care doriti sa inserati nodul: ";
         std::cin >> poz;
         ldi[index_ldi - 1].adaugareElement(el, poz);
       } else
@@ -99,9 +96,10 @@ int main() {
                   << "]) ";
         std::cin >> index_ldi;
       }
+
       if (ldi_created[index_ldi - 1]) { /* daca lista exista */
         int poz;
-        std::cout << "Pozitia nodului pe care doriti sa il stergeti? ";
+        std::cout << "Pozitia nodului pe care doriti sa il stergeti: ";
         std::cin >> poz;
         ldi[index_ldi - 1].stergeElement(poz);
       } else
@@ -122,8 +120,22 @@ int main() {
                   << "]) ";
         std::cin >> index_ldi_rez;
       }
+
       ldi[index_ldi_rez - 1] = ldi[index_ldi_1 - 1] + ldi[index_ldi_2 - 1];
       ldi_created[index_ldi_rez - 1] = true;
+      break;
+
+    case Comenzi::COMANDA_LUNGIME_LISTA:
+      /* citim indexul listei din array pe care vom lucra */
+      while (index_ldi < 1 || index_ldi > nr_ldi) {
+        std::cout << "Pentru ce lista doriti sa afisati lungimea? ([1,"
+                  << nr_ldi << "]) ";
+        std::cin >> index_ldi;
+      }
+
+      std::cout << "Lungimea listei " << index_ldi << " este "
+                << ldi[index_ldi - 1].lungime() << ".\n";
+
       break;
 
     case Comenzi::COMANDA_AFISARE_LISTA:
@@ -132,11 +144,8 @@ int main() {
         std::cout << "Ce lista doriti sa afisati? ([1," << nr_ldi << "]) ";
         std::cin >> index_ldi;
       }
-      if (ldi_created[index_ldi - 1]) {
-        std::cout << ldi[index_ldi - 1] << "\n";
-      } else
-        std::cout << "Nu ati creat lista cu indexul " << index_ldi
-                  << ". Nu avem ce afisa.\n";
+
+      std::cout << ldi[index_ldi - 1] << "\n";
       break;
 
     default:

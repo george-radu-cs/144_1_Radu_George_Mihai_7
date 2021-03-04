@@ -36,6 +36,7 @@ int main() {
   ldi->adaugareElement(4, 2);
   ldi->adaugareElement(5, 2);
   std::cout << *ldi << "\n";
+
   ldi->stergeElement(0); /* sterge primul element */
   std::cout << *ldi << "\n";
 
@@ -51,6 +52,10 @@ int main() {
   std::cout << *ldi << "\n";
 
   ldi->stergeElement(0);
+  std::cout << *ldi << "\n";
+
+  ldi->stergeElement(0);
+  /* aici lista va fi goala */
   std::cout << *ldi << "\n";
 
   ldi->adaugareElement(1, -2);
@@ -79,6 +84,24 @@ int main() {
   ListaDubluInlantuita lista2 = ListaDubluInlantuita();
   std::cin >> lista1 >> lista2;
   std::cout << lista1 << lista2;
+
+  /* teste adunare liste di */
+  ListaDubluInlantuita lp1 = ListaDubluInlantuita(nod1, nod2);
+  ListaDubluInlantuita lp2 = ListaDubluInlantuita();
+  ListaDubluInlantuita lp3;
+  lp3 = lp1 + lp2;
+  std::cout << "lp1\n" << lp1;
+  std::cout << "lp2\n" << lp2;
+  std::cout << "lp3\n" << lp3;
+
+  /* testam functia de lungime */
+  l1->stergeLista();
+  std::cout << *l1;
+  std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
+  l1->adaugareElement(1, 0);
+  std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
+  l1->adaugareElement(1, 0);
+  std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
 
   return 0;
 }

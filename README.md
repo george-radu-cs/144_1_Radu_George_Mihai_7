@@ -21,19 +21,20 @@ Codul ruleaza.
 
 ## Cerinte bonus
 
-- suprascriere operator =
-- operator == si operator !=
+- suprascriere operator= – done+teste
+- operator == si operator != – done+teste
 - operator [] se furnizeaza o referinta la elementul de pe pozitia x (ca info,
-nu la nod)
-- operator +=
-- operator ! testeaza pozitiv daca lista este goala
-- operatorii <, <=, >, >=
+nu la nod) - done+teste
+- operator += – done+teste
+- operator ! testeaza pozitiv daca lista este goala – done+teste
+- operatorii <, <=, >, >= done+teste
 – compararea element cu element (in ordinea parcurgerii)
-– compararea cu un intreg, element cu element
+– compararea cu un intreg, element cu element – done+teste
 - operator ^ concatenare cu sine de n ori
 - membru iterator
 - metoda resetarea iteratorului la inceput
-- membru pentru sens parcurgere- metoda next
+- membru pentru sens parcurgere
+- metoda next
 - metoda back
 - metoda schimbare sens parcurgere
 

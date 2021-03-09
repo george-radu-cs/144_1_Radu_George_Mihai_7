@@ -45,13 +45,13 @@ public:
   void setPrev(Nod *prev) { m_prev = prev; }
   void setNext(Nod *next) { m_next = next; }
 
-  friend std::ostream &operator<<(std::ostream &out, Nod *nod) {
-    out << nod->m_info;
+  friend std::ostream &operator<<(std::ostream &out, const Nod &nod) {
+    out << nod.m_info;
     return out;
   }
 
-  friend std::istream &operator>>(std::istream &in, Nod *nod) {
-    in >> nod->m_info;
+  friend std::istream &operator>>(std::istream &in, Nod &nod) {
+    in >> nod.m_info;
     return in;
   }
 };

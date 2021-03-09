@@ -31,7 +31,7 @@ int main() {
     /* teste citire nod operator>> si << */
     Nod *nod = new Nod();
     std::cout << "Introduceti valoarea nodului: ";
-    std::cin >> nod;
+    std::cin >> *nod;
     std::cout << nod << "\n\n";
 
     /* teste lista_dublu_inltantuita adaugare element sterge element si << */
@@ -151,6 +151,50 @@ int main() {
     /* am putea face si aici teste pentru != dar nu are rost intrucat in
      * implementarea noastra am ales sa ne folosim de un apel al operatorului ==
      * al carui rezultat il negam */
+    std::cin >> bl1 >> bl2;
+    std::cout << "Cand ambele liste contin elemente\n";
+    std::cout << "bl1<bl2: " << (bl1 < bl2) << '\n';
+    std::cout << "bl1<=bl2: " << (bl1 <= bl2) << '\n';
+    std::cout << "bl1>bl2: " << (bl1 > bl2) << '\n';
+    std::cout << "bl1>=bl2: " << (bl1 >= bl2) << '\n';
+
+    std::cout << "Cand ambele liste sunt goale\n";
+    std::cout << "bl3<bl4: " << (bl3 < bl4) << '\n';
+    std::cout << "bl3<=bl4: " << (bl3 <= bl4) << '\n';
+    std::cout << "bl3>bl4: " << (bl3 > bl4) << '\n';
+    std::cout << "bl3>=bl4: " << (bl3 >= bl4) << '\n';
+
+    std::cout << "Cand prima lista este goala si a doua nu\n";
+    std::cout << "bl3<bl1: " << (bl3 < bl1) << '\n';
+    std::cout << "bl3<=bl1: " << (bl3 <= bl1) << '\n';
+    std::cout << "bl3>bl1: " << (bl3 > bl1) << '\n';
+    std::cout << "bl3>=bl1: " << (bl3 >= bl1) << '\n';
+
+    std::cout << "Cand a doua lista este goala si prima nu\n";
+    std::cout << "bl1<bl4: " << (bl1 < bl4) << '\n';
+    std::cout << "bl1<=bl4: " << (bl1 <= bl4) << '\n';
+    std::cout << "bl1>bl4: " << (bl1 > bl4) << '\n';
+    std::cout << "bl1>=bl4: " << (bl1 >= bl4) << '\n';
+
+    if (!bl1) {
+      std::cout << "Lista bl1 este goala\n";
+    } else {
+      std::cout << "Lista bl1 nu este goala\n";
+    }
+    if (!bl3) {
+      std::cout << "Lista bl3 este goala\n";
+    } else {
+      std::cout << "Lista bl3 nu este goala\n";
+    }
+
+    for (auto p{bl1.begin()}; p != nullptr; p = p->getNext()) {
+      std::cout << *p << " ";
+    }
+
+    for (Nod *p{bl1.begin()}; p != nullptr; p = p->getNext()) {
+      std::cout << *p << " ";
+    }
+    std::cout << '\n';
   }
   return 0;
 }

@@ -119,7 +119,7 @@ void ListaDubluInlantuita::stergeLista() {
   m_tail = nullptr;
 }
 
-int ListaDubluInlantuita::lungime() {
+int ListaDubluInlantuita::lungime() const {
   int l{0};
 
   Nod *indirect = m_head;
@@ -161,7 +161,7 @@ std::istream &operator>>(std::istream &in, ListaDubluInlantuita &ldi) {
 }
 
 /* afisam lista in ambele sensuri */
-std::ostream &operator<<(std::ostream &out, ListaDubluInlantuita &ldi) {
+std::ostream &operator<<(std::ostream &out, const ListaDubluInlantuita &ldi) {
   if (ldi.getHead() == nullptr) {
     std::cout << "Lista este goala.\n";
   } else {
@@ -187,8 +187,8 @@ std::ostream &operator<<(std::ostream &out, ListaDubluInlantuita &ldi) {
   return out;
 }
 
-ListaDubluInlantuita &operator+(ListaDubluInlantuita &l1,
-                                ListaDubluInlantuita &l2) {
+ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
+                                const ListaDubluInlantuita &l2) {
   /* construim o noua lista, headul va fi headul de la l1, si tailul va fi
    * tailul de la l2, de asemenea va trebui sa aduagam legatura dintre
    * tailul lui l1 si headul lui l2*/
@@ -248,14 +248,12 @@ ListaDubluInlantuita &operator+(ListaDubluInlantuita &l1,
 
 ListaDubluInlantuita &
 ListaDubluInlantuita::operator+=(ListaDubluInlantuita &l1) {
-  /* TODO asta e varianta usoara, decide mai tarziu daca merita sa adaugi cod
-   * specific pentru asta sau e ok si asa */
   *this = *this + l1;
   return *this;
 }
 
 ListaDubluInlantuita &
-ListaDubluInlantuita::operator=(ListaDubluInlantuita &ldi) {
+ListaDubluInlantuita::operator=(const ListaDubluInlantuita &ldi) {
   /* stergem lista anterioara din memorie */
   this->stergeLista();
 
@@ -300,7 +298,8 @@ bool ListaDubluInlantuita::operator!() const {
     return false;
 }
 
-bool operator==(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator==(const ListaDubluInlantuita &l1,
+                const ListaDubluInlantuita &l2) {
   /* daca ambele liste sunt goale atunci evident listele sunt egale si nu mai
    * avem ce verifica */
   if (l1.getHead() == nullptr && l2.getHead() == nullptr) {
@@ -346,18 +345,19 @@ bool operator==(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
   return rezultat_egalitate;
 }
 
-bool operator!=(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator!=(const ListaDubluInlantuita &l1,
+                const ListaDubluInlantuita &l2) {
   /* negam rezultatul egalitatii, operator pe care l-am creat deja */
   /* am ales aceasta metoda pentru usurinta in scris + nu mai trebuie facute
    * verificari in plus fata de cele de la == */
   return !(l1 == l2);
 }
 
-bool operator<(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
   /* daca ambele liste sunt goale atunci evident listele sunt egale si nu mai
    * avem ce verifica */
   if (l1.getHead() == nullptr && l2.getHead() == nullptr) {
-    return true;
+    return false;
   }
 
   /* 2 pointeri pentru parcurgerea celor 2 liste */
@@ -386,18 +386,23 @@ bool operator<(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
   /* daca listele nu au aceeasi lungime dupa verificarea element cu element vom
    * considera lista mai mica cea cu lungimea mai mica */
   if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
-    rezultat_egalitate = false;
-  } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
     rezultat_egalitate = true;
+  } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
+    rezultat_egalitate = false;
+  } else { /* altfel listele sunt egale */
+    rezultat_egalitate = false;
   }
 
   /* clean up */
+  pointer_lista_1 = nullptr;
   delete pointer_lista_1;
+  pointer_lista_2 = nullptr;
   delete pointer_lista_2;
   return rezultat_egalitate;
 }
 
-bool operator<=(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator<=(const ListaDubluInlantuita &l1,
+                const ListaDubluInlantuita &l2) {
   /* daca ambele liste sunt goale atunci evident listele sunt egale si nu mai
    * avem ce verifica */
   if (l1.getHead() == nullptr && l2.getHead() == nullptr) {
@@ -430,27 +435,33 @@ bool operator<=(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
   /* daca listele nu au aceeasi lungime dupa verificarea element cu element vom
    * considera lista mai mica cea cu lungimea mai mica */
   if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
-    rezultat_egalitate = false;
+    rezultat_egalitate = true;
   } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
+    rezultat_egalitate = false;
+  } else { /* altfel listele sunt egale */
     rezultat_egalitate = true;
   }
 
   /* clean up */
+  pointer_lista_1 = nullptr;
   delete pointer_lista_1;
+  pointer_lista_2 = nullptr;
   delete pointer_lista_2;
   return rezultat_egalitate;
 }
 
-bool operator>(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator>(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
   return !(l1 <= l2);
 }
 
-bool operator>=(ListaDubluInlantuita &l1, ListaDubluInlantuita &l2) {
+bool operator>=(const ListaDubluInlantuita &l1,
+                const ListaDubluInlantuita &l2) {
   return !(l1 < l2);
 }
 
-ListaDubluInlantuita &operator^(ListaDubluInlantuita &l1,
-                                ListaDubluInlantuita &l2) {
+ListaDubluInlantuita &operator^(const ListaDubluInlantuita &l1,
+                                const ListaDubluInlantuita &l2) {
+  /* TODO */
   ListaDubluInlantuita *ldi = new ListaDubluInlantuita;
   return *ldi;
 }

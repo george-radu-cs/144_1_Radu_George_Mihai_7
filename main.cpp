@@ -1,5 +1,5 @@
 #include "enums.h"
-#include "lista_dublu_inltantuita.h"
+#include "lista_dublu_inlantuita.h"
 #include <map>
 #include <string>
 

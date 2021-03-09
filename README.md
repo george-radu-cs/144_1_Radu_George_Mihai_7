@@ -19,6 +19,24 @@ aceeasi funcție;
 dublu inlantuite, rezultand într-o noua lista dublu inlantuita.
 Codul ruleaza.
 
+## Cerinte bonus
+
+- suprascriere operator =
+- operator == si operator !=
+- operator [] se furnizeaza o referinta la elementul de pe pozitia x (ca info,
+nu la nod)
+- operator +=
+- operator ! testeaza pozitiv daca lista este goala
+- operatorii <, <=, >, >=
+– compararea element cu element (in ordinea parcurgerii)
+– compararea cu un intreg, element cu element
+- operator ^ concatenare cu sine de n ori
+- membru iterator
+- metoda resetarea iteratorului la inceput
+- membru pentru sens parcurgere- metoda next
+- metoda back
+- metoda schimbare sens parcurgere
+
 ## compilare si rulare program
 
 > \$ cmake CMakeLists.txt && make
@@ -48,5 +66,7 @@ listei vom considera ca adaugam la final
 
 ## TODO
 
+- adauga teste pentru operatorii de comparatie la LDI
+- termina restul de metode + iteratorii de la LDI
 - momentan programul pare complet, de reverificat maine pentru greseli in gandire,
 typo uri si poate cleaning

@@ -21,6 +21,8 @@ public:
   /* getters si setters pentru acces membri privati */
   Nod *getHead() const { return m_head; }
   Nod *getTail() const { return m_tail; }
+  /* OBS: inainte de a apela aceasta metoda folositi mai intai metoda
+   * resetareIterator() */
   Nod *getIterator() const { return m_iterator; }
 
   Nod *begin() { return m_head; }
@@ -43,9 +45,13 @@ public:
   /* obtine lungimea listei */
   int lungime() const;
 
+  /* setam iteratorul la capatul listei */
   void resetareIterator();
+  /* inaintam cu iteratorul daca putem */
   void next();
+  /* mergem inapoi cu iteratorul daca putem */
   void back();
+
   void inversareLista();
 
   /* overlod subscript operator, accesam nodul prin referinta */

@@ -60,12 +60,22 @@ structuri de date deja existente in C/C++
 - la adaugareElement & stergeElement daca avem pozitie negativa consideram ca
 vrem sa adaugam la inceput de lista, iar daca avem poz mai mare decat lungimea
 listei vom considera ca adaugam la final
+- la comparari testam conditia ceruta pana cand nu mai este respectata sau cand
+una din liste se termina, daca conditia impusa ramane adevarata schimbam
+conditia in lungimea listei pentru a obtine rezultatul
+
+Exemple:
+
+[0,1] < [0, 2] false (avem primele elemente egale)
+
+[0,1] < [0, 1] false (analog)
+
+[0,1] <= [0, 1] true (toate elementele sunt egale + lungimea lor)
+
+[0, 1] <= [0, 1, 2] true (primele 2 elemente sunt egale, dupa prima lista nu mai
+are elemente deci comparam dupa lungime)
 
 ## notite
 
 - Am facut cateva teste si am acoperit toate cazurile la care m-am putut gandi.
 - Clasa nod este prea mica pentru a o separa in doua fisiere .h si .cpp
-
-## TODO
-
-- adauga comenzi noi pentru cerintele BONUS in main

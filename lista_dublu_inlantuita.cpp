@@ -3,6 +3,7 @@
 ListaDubluInlantuita::ListaDubluInlantuita() { /* constructor de initializare */
   m_head = nullptr;
   m_tail = nullptr;
+  m_iterator = m_head;
 }
 
 ListaDubluInlantuita::ListaDubluInlantuita(Nod *head, Nod *tail) {
@@ -12,6 +13,7 @@ ListaDubluInlantuita::ListaDubluInlantuita(Nod *head, Nod *tail) {
     m_head->setNext(m_tail);
   if (tail != nullptr)
     m_tail->setPrev(m_head);
+  m_iterator = m_head;
 }
 
 ListaDubluInlantuita::~ListaDubluInlantuita() {
@@ -23,6 +25,7 @@ ListaDubluInlantuita::~ListaDubluInlantuita() {
     }
     delete m_tail;
   }
+  delete m_iterator;
 }
 
 /* metoda publica de adaugare a unui element pe o poziție */
@@ -117,6 +120,7 @@ void ListaDubluInlantuita::stergeLista() {
   delete indirect;
   m_head = nullptr;
   m_tail = nullptr;
+  m_iterator = m_head;
 }
 
 int ListaDubluInlantuita::lungime() const {
@@ -418,7 +422,7 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
   /* vrem sa facem si clean up la final motiv pentru care vom retine intr-o
    * variabila ce va trebui sa returnam si la final vom face clean up si dupa
    * vom returna ce se afla in aceasta variabila */
-  bool rezultat_egalitate{true};
+  bool rezultat_inegalitate{true};
 
   /* cat timp mai avem noduri in lista */
   while (pointer_lista_1 != nullptr && pointer_lista_2 != nullptr) {
@@ -426,7 +430,7 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
      * verifica element cu element conditia pana cand gasim un index la care
      * nu se mai respecta conditia, indiferent de ce urmeaza in liste */
     if (pointer_lista_1->getInfo() >= pointer_lista_2->getInfo()) {
-      rezultat_egalitate = false;
+      rezultat_inegalitate = false;
       break;
     }
 
@@ -437,12 +441,8 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
 
   /* daca listele nu au aceeasi lungime dupa verificarea element cu element
    * vom considera lista mai mica cea cu lungimea mai mica */
-  if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
-    rezultat_egalitate = true;
-  } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
-    rezultat_egalitate = false;
-  } else { /* altfel listele sunt egale */
-    rezultat_egalitate = false;
+  if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
+    rezultat_inegalitate = false;
   }
 
   /* clean up */
@@ -450,7 +450,7 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
   delete pointer_lista_1;
   pointer_lista_2 = nullptr;
   delete pointer_lista_2;
-  return rezultat_egalitate;
+  return rezultat_inegalitate;
 }
 
 bool operator<=(const ListaDubluInlantuita &l1,
@@ -467,7 +467,7 @@ bool operator<=(const ListaDubluInlantuita &l1,
   /* vrem sa facem si clean up la final motiv pentru care vom retine intr-o
    * variabila ce va trebui sa returnam si la final vom face clean up si dupa
    * vom returna ce se afla in aceasta variabila */
-  bool rezultat_egalitate{true};
+  bool rezultat_inegalitate{true};
 
   /* cat timp mai avem noduri in lista */
   while (pointer_lista_1 != nullptr && pointer_lista_2 != nullptr) {
@@ -475,7 +475,7 @@ bool operator<=(const ListaDubluInlantuita &l1,
      * verifica element cu element conditia pana cand gasim un index la care
      * nu se mai respecta conditia, indiferent de ce urmeaza in liste */
     if (pointer_lista_1->getInfo() > pointer_lista_2->getInfo()) {
-      rezultat_egalitate = false;
+      rezultat_inegalitate = false;
       break;
     }
 
@@ -486,12 +486,8 @@ bool operator<=(const ListaDubluInlantuita &l1,
 
   /* daca listele nu au aceeasi lungime dupa verificarea element cu element
    * vom considera lista mai mica cea cu lungimea mai mica */
-  if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
-    rezultat_egalitate = true;
-  } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
-    rezultat_egalitate = false;
-  } else { /* altfel listele sunt egale */
-    rezultat_egalitate = true;
+  if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
+    rezultat_inegalitate = false;
   }
 
   /* clean up */
@@ -499,7 +495,7 @@ bool operator<=(const ListaDubluInlantuita &l1,
   delete pointer_lista_1;
   pointer_lista_2 = nullptr;
   delete pointer_lista_2;
-  return rezultat_egalitate;
+  return rezultat_inegalitate;
 }
 
 bool operator>(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {

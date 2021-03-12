@@ -82,7 +82,7 @@ int main() {
         std::cin >> el;
         std::cout << "Pozitia la care doriti sa inserati nodul: ";
         std::cin >> poz;
-        ldi[index_ldi - 1].adaugareElement(el, poz);
+        ldi[index_ldi - 1].adaugaElement(el, poz);
       } else
         std::cout
             << "Nu ati creat lista cu indexul " << index_ldi

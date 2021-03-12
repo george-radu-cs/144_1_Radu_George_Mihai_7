@@ -30,13 +30,14 @@ nu la nod) - done+teste
 - operatorii <, <=, >, >= done+teste
 – compararea element cu element (in ordinea parcurgerii)
 – compararea cu un intreg, element cu element – done+teste
-- operator ^ concatenare cu sine de n ori
-- membru iterator
-- metoda resetarea iteratorului la inceput
-- membru pentru sens parcurgere
-- metoda next
-- metoda back
-- metoda schimbare sens parcurgere
+- operator ^ concatenare cu sine de n ori – done+teste
+- membru iterator – done+teste
+- metoda resetarea iteratorului la inceput – done+teste
+- membru pentru sens parcurgere – am renuntat la acest membru
+- metoda next – done+teste
+- metoda back – done+teste
+- metoda schimbare sens parcurgere – am modificat aceasta metoda intr-o metoda
+care inverseaza ordinea elementelor din lista – done+teste
 
 ## compilare si rulare program
 
@@ -67,7 +68,4 @@ listei vom considera ca adaugam la final
 
 ## TODO
 
-- adauga teste pentru operatorii de comparatie la LDI
-- termina restul de metode + iteratorii de la LDI
-- momentan programul pare complet, de reverificat maine pentru greseli in gandire,
-typo uri si poate cleaning
+- adauga comenzi noi pentru cerintele BONUS in main

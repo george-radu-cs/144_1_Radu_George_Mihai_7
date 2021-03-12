@@ -37,6 +37,7 @@ public:
      * alta parte, in alt context etc. */
   }
 
+  /* getters si setters pentru a accesa datele clasei */
   int getInfo() const { return m_info; }
   Nod *getPrev() { return m_prev; }
   Nod *getNext() { return m_next; }
@@ -45,11 +46,13 @@ public:
   void setPrev(Nod *prev) { m_prev = prev; }
   void setNext(Nod *next) { m_next = next; }
 
+  /* supraincarea metodei de afisare a unui nod in consola */
   friend std::ostream &operator<<(std::ostream &out, const Nod &nod) {
     out << nod.m_info;
     return out;
   }
 
+  /* supraincarea metodei de citire a unui nod din consola */
   friend std::istream &operator>>(std::istream &in, Nod &nod) {
     in >> nod.m_info;
     return in;

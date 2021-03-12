@@ -4,6 +4,7 @@ ListaDubluInlantuita::ListaDubluInlantuita() { /* constructor de initializare */
   m_head = nullptr;
   m_tail = nullptr;
 }
+
 ListaDubluInlantuita::ListaDubluInlantuita(Nod *head, Nod *tail) {
   m_head = head;
   m_tail = tail;
@@ -25,7 +26,7 @@ ListaDubluInlantuita::~ListaDubluInlantuita() {
 }
 
 /* metoda publica de adaugare a unui element pe o poziție */
-void ListaDubluInlantuita::adaugareElement(int el, int poz) {
+void ListaDubluInlantuita::adaugaElement(int el, int poz) {
   if (poz < 0) /* vom considera poz negative drept primul element */
     poz = 0;
 
@@ -58,7 +59,6 @@ void ListaDubluInlantuita::adaugareElement(int el, int poz) {
   if (poz == 0) { /* punem nr la poz corecta */
     indirect->getPrev()->setNext(newNode);
     newNode->setPrev(indirect->getPrev());
-    /* } */
     newNode->setNext(indirect);
     indirect->setPrev(newNode);
   } else { /* s a introdus o pozitie mai mare decat lungimea listei, deci
@@ -132,10 +132,108 @@ int ListaDubluInlantuita::lungime() const {
   return l;
 }
 
+void ListaDubluInlantuita::resetareIterator() { m_iterator = m_head; }
+void ListaDubluInlantuita::next() {
+  if (m_iterator != nullptr) {
+    m_iterator = m_iterator->getNext();
+  }
+}
+void ListaDubluInlantuita::back() {
+  if (m_iterator != nullptr) {
+    m_iterator = m_iterator->getPrev();
+  }
+}
+
+void ListaDubluInlantuita::inversareLista() {
+  int lungime = this->lungime();
+  if (lungime <= 1) { /* daca lista este goala sau are doar un element nu avem
+                         ce modificari sa aducem */
+    return;
+  }
+
+  /* vom folosi 2 pointeri care vor pleca din capete si vor inversa informatia
+   * * pe care o contin nodurile, nu interschimbam nodurile intrucat ar trebui
+   * sa schimbam legaturile dintre nodurile alaturate si ar fi un proces
+   * costisitor si inutil */
+  Nod *left = m_head;
+  Nod *right = m_tail;
+  int tmp; /* val temporara pentru interschimbarea valorilor */
+  while ((left < right) && (left != right)) {
+    tmp = left->getInfo();
+    left->setInfo(right->getInfo());
+    right->setInfo(tmp);
+    left = left->getNext();
+    right = right->getPrev();
+  }
+  left = nullptr;
+  delete left;
+  right = nullptr;
+  delete right;
+}
+
+/* operatorul [] va returna o referinta catre int-ul de la pozitia index
+ * verificam daca avem index out of range  */
+Nod &ListaDubluInlantuita::operator[](int index) {
+  assert(index >= 0 && index < this->lungime() && "Index out of range.");
+
+  Nod *indirect = nullptr;
+  /* indexul trebuie sa fie valid */
+  if (index < 0 || index >= this->lungime()) {
+    std::cout << "Index out of range\n";
+
+    return *indirect;
+  }
+
+  indirect = m_head;
+  while (index > 0) {
+    indirect = indirect->getNext();
+    --index;
+  }
+
+  return *indirect;
+}
+
+/* verificam daca lista este goala, returnam true daca lista este goala */
+bool ListaDubluInlantuita::operator!() const {
+  /* daca headul este nul atunci si lista va fi goala */
+  if (m_head == nullptr)
+    return true;
+  else
+    return false;
+}
+
+ListaDubluInlantuita &
+ListaDubluInlantuita::operator=(const ListaDubluInlantuita &ldi) {
+  /* stergem lista anterioara din memorie */
+  this->stergeLista();
+
+  /* construim o copie dupa lista ldi */
+  if (ldi.getHead() != nullptr) { /* daca ldi nu este o lista goala */
+    /* adaugam capul si coada listei pentru a se face legatura dubla */
+    this->adaugaElement(ldi.getHead()->getInfo(), 0);
+    this->adaugaElement(ldi.getTail()->getInfo(), 1);
+
+    /* adaugam celelalte elemente din lista de la coada la cap pentru a le
+     * adauga mereu pe pozitia 1 */
+    Nod *indirect = ldi.getTail()->getPrev();
+    while (indirect != ldi.getHead()) { /* nu vrem sa adaugam capul de 2 ori */
+      this->adaugaElement(indirect->getInfo(), 1);
+      indirect = indirect->getPrev();
+    }
+
+    /* aici avem un pointer pentru headul listei, nu vrem sa il stergem pe
+     * acesta motiv pentru care il setam pe nullptr si dupa il stergem */
+    indirect = nullptr;
+    delete indirect;
+  }
+
+  return *this;
+}
+
 std::istream &operator>>(std::istream &in, ListaDubluInlantuita &ldi) {
   /* daca lista contine deja elemente, le vom sterge si vom citi alta lista de
-   * la user, facem asta pentru a ramane consistenti cu celelalte tipuri de date
-   * deja existente */
+   * la user, facem asta pentru a ramane consistenti cu celelalte tipuri de
+   * date deja existente */
   ldi.stergeLista();
   /* ldi = ListaDubluInlantuita(); */
 
@@ -146,15 +244,15 @@ std::istream &operator>>(std::istream &in, ListaDubluInlantuita &ldi) {
     in >> nr_noduri;
   }
 
-  int i{0};
-  int tempInt; /* vom citi valorile nodurilor in aceasta variabila */
+  int index_nod{0};
+  int valoare_nod; /* vom citi valorile nodurilor in aceasta variabila */
 
-  while (i < nr_noduri) {
+  while (index_nod < nr_noduri) {
     /* anuntam utilizatorul ce nod introduce */
-    std::cout << "Nodul " << i << ": ";
-    in >> tempInt;
-    ldi.adaugareElement(tempInt, i + 1);
-    ++i;
+    std::cout << "Nodul " << index_nod << ": ";
+    in >> valoare_nod;
+    ldi.adaugaElement(valoare_nod, index_nod + 1);
+    ++index_nod;
   }
 
   return in;
@@ -207,7 +305,7 @@ ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
 
     indirect = l2.getTail()->getPrev();
     while (indirect != nullptr) {
-      rez->adaugareElement(indirect->getInfo(), 1);
+      rez->adaugaElement(indirect->getInfo(), 1);
       indirect = indirect->getPrev();
     }
 
@@ -216,7 +314,7 @@ ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
     /* avem deja adaugat headul in lista motiv pentru care nu comparam cu null
      */
     while (indirect != l1.getHead()) {
-      rez->adaugareElement(indirect->getInfo(), 1);
+      rez->adaugaElement(indirect->getInfo(), 1);
       indirect = indirect->getPrev();
     }
   } else if (l1.getHead() == nullptr && l2.getHead() != nullptr) {
@@ -224,10 +322,10 @@ ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
     newHead = new Nod(l2.getHead()->getInfo());
     newTail = new Nod(l2.getTail()->getInfo());
     rez = new ListaDubluInlantuita(newHead, newTail);
-
+    /* } */
     Nod *indirect = l2.getTail()->getPrev();
     while (indirect != l2.getHead()) {
-      rez->adaugareElement(indirect->getInfo(), 1);
+      rez->adaugaElement(indirect->getInfo(), 1);
       indirect = indirect->getPrev();
     }
   } else if (l1.getHead() != nullptr && l2.getHead() == nullptr) {
@@ -238,7 +336,7 @@ ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
 
     Nod *indirect = l1.getTail()->getPrev();
     while (indirect != l1.getHead()) {
-      rez->adaugareElement(indirect->getInfo(), 1);
+      rez->adaugaElement(indirect->getInfo(), 1);
       indirect = indirect->getPrev();
     }
   }
@@ -247,55 +345,9 @@ ListaDubluInlantuita &operator+(const ListaDubluInlantuita &l1,
 }
 
 ListaDubluInlantuita &
-ListaDubluInlantuita::operator+=(ListaDubluInlantuita &l1) {
+ListaDubluInlantuita::operator+=(const ListaDubluInlantuita &l1) {
   *this = *this + l1;
   return *this;
-}
-
-ListaDubluInlantuita &
-ListaDubluInlantuita::operator=(const ListaDubluInlantuita &ldi) {
-  /* stergem lista anterioara din memorie */
-  this->stergeLista();
-
-  /* construim o copie dupa lista ldi */
-  if (ldi.getHead() != nullptr) { /* daca ldi nu este o lista goala */
-    /* adaugam capul si coada listei pentru a se face legatura dubla */
-    this->adaugareElement(ldi.getHead()->getInfo(), 0);
-    this->adaugareElement(ldi.getTail()->getInfo(), 1);
-
-    /* adaugam celelalte elemente din lista de la coada la cap pentru a le
-     * adauga mereu pe pozitia 1 */
-    Nod *indirect = ldi.getTail()->getPrev();
-    while (indirect != ldi.getHead()) { /* nu vrem sa adaugam capul de 2 ori */
-      this->adaugareElement(indirect->getInfo(), 1);
-      indirect = indirect->getPrev();
-    }
-
-    /* aici avem un pointer pentru headul listei, nu vrem sa il stergem pe
-     * acesta motiv pentru care il setam pe nullptr si dupa il stergem */
-    indirect = nullptr;
-    delete indirect;
-  }
-
-  return *this;
-}
-
-/* operatorul [] va returna o referinta catre int-ul de la pozitia index
- * verificam daca avem index out of range  */
-int &ListaDubluInlantuita::operator[](int index) {
-  if (index < 0) {
-  }
-  int *a = new int;
-  return *a;
-}
-
-/* verificam daca lista este goala, returnam true daca lista este goala */
-bool ListaDubluInlantuita::operator!() const {
-  /* daca headul este nul atunci si lista va fi goala */
-  if (m_head == nullptr)
-    return true;
-  else
-    return false;
 }
 
 bool operator==(const ListaDubluInlantuita &l1,
@@ -371,8 +423,8 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
   /* cat timp mai avem noduri in lista */
   while (pointer_lista_1 != nullptr && pointer_lista_2 != nullptr) {
     /* lista l1 trebuie sa fie mai mica decat l2 element cu element, vom
-     * verifica element cu element conditia pana cand gasim un index la care nu
-     * se mai respecta conditia, indiferent de ce urmeaza in liste */
+     * verifica element cu element conditia pana cand gasim un index la care
+     * nu se mai respecta conditia, indiferent de ce urmeaza in liste */
     if (pointer_lista_1->getInfo() >= pointer_lista_2->getInfo()) {
       rezultat_egalitate = false;
       break;
@@ -383,8 +435,8 @@ bool operator<(const ListaDubluInlantuita &l1, const ListaDubluInlantuita &l2) {
     pointer_lista_2 = pointer_lista_2->getNext();
   }
 
-  /* daca listele nu au aceeasi lungime dupa verificarea element cu element vom
-   * considera lista mai mica cea cu lungimea mai mica */
+  /* daca listele nu au aceeasi lungime dupa verificarea element cu element
+   * vom considera lista mai mica cea cu lungimea mai mica */
   if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
     rezultat_egalitate = true;
   } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
@@ -420,8 +472,8 @@ bool operator<=(const ListaDubluInlantuita &l1,
   /* cat timp mai avem noduri in lista */
   while (pointer_lista_1 != nullptr && pointer_lista_2 != nullptr) {
     /* lista l1 trebuie sa fie mai mica decat l2 element cu element, vom
-     * verifica element cu element conditia pana cand gasim un index la care nu
-     * se mai respecta conditia, indiferent de ce urmeaza in liste */
+     * verifica element cu element conditia pana cand gasim un index la care
+     * nu se mai respecta conditia, indiferent de ce urmeaza in liste */
     if (pointer_lista_1->getInfo() > pointer_lista_2->getInfo()) {
       rezultat_egalitate = false;
       break;
@@ -432,8 +484,8 @@ bool operator<=(const ListaDubluInlantuita &l1,
     pointer_lista_2 = pointer_lista_2->getNext();
   }
 
-  /* daca listele nu au aceeasi lungime dupa verificarea element cu element vom
-   * considera lista mai mica cea cu lungimea mai mica */
+  /* daca listele nu au aceeasi lungime dupa verificarea element cu element
+   * vom considera lista mai mica cea cu lungimea mai mica */
   if (pointer_lista_1 == nullptr && pointer_lista_2 != nullptr) {
     rezultat_egalitate = true;
   } else if (pointer_lista_1 != nullptr && pointer_lista_2 == nullptr) {
@@ -459,11 +511,11 @@ bool operator>=(const ListaDubluInlantuita &l1,
   return !(l1 < l2);
 }
 
-ListaDubluInlantuita &operator^(const ListaDubluInlantuita &l1,
-                                const ListaDubluInlantuita &l2) {
-  /* TODO */
-  ListaDubluInlantuita *ldi = new ListaDubluInlantuita;
-  return *ldi;
+ListaDubluInlantuita &operator^(const ListaDubluInlantuita &ldi, int n) {
+  ListaDubluInlantuita *rez = new ListaDubluInlantuita;
+  while (n > 0) {
+    *rez += ldi;
+    --n;
+  }
+  return *rez;
 }
-
-void ListaDubluInlantuita::schimbareParcurgere() {}

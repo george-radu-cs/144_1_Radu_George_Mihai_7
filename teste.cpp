@@ -36,9 +36,9 @@ int main() {
 
     /* teste lista_dublu_inltantuita adaugare element sterge element si << */
     ListaDubluInlantuita *ldi = new ListaDubluInlantuita(n1, n2);
-    ldi->adaugareElement(3, 0);
-    ldi->adaugareElement(4, 2);
-    ldi->adaugareElement(5, 2);
+    ldi->adaugaElement(3, 0);
+    ldi->adaugaElement(4, 2);
+    ldi->adaugaElement(5, 2);
     std::cout << *ldi << "\n";
 
     ldi->stergeElement(0); /* sterge primul element */
@@ -52,7 +52,7 @@ int main() {
     ldi->stergeElement(1); /* sterge un element din mijloc */
     std::cout << *ldi << "\n";
 
-    ldi->adaugareElement(3, 1);
+    ldi->adaugaElement(3, 1);
     std::cout << *ldi << "\n";
 
     ldi->stergeElement(0);
@@ -62,11 +62,11 @@ int main() {
     /* aici lista va fi goala */
     std::cout << *ldi << "\n";
 
-    ldi->adaugareElement(1, -2);
+    ldi->adaugaElement(1, -2);
     std::cout << *ldi << "\n";
 
     /* teste lista_dublu_inltantuita testare operator<< si >> dar si operator>>
-     * de la nod*/
+     * de la nod */
     Nod *nod1 = new Nod(1);
     Nod *nod2 = new Nod(2);
     Nod *nod3 = new Nod(3);
@@ -102,15 +102,16 @@ int main() {
     l1->stergeLista();
     std::cout << *l1;
     std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
-    l1->adaugareElement(1, 0);
+    l1->adaugaElement(1, 0);
     std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
-    l1->adaugareElement(1, 0);
+    l1->adaugaElement(1, 0);
     std::cout << "Lungimea listei l1 este: " << l1->lungime() << "\n";
   } else { /* teste cerinte bonus */
     ListaDubluInlantuita bl1 = ListaDubluInlantuita();
     ListaDubluInlantuita bl2 = ListaDubluInlantuita();
     ListaDubluInlantuita bl3 = ListaDubluInlantuita();
     ListaDubluInlantuita bl4 = ListaDubluInlantuita();
+
     std::cin >> bl1 >> bl2;
     std::cout << bl1 << bl2;
     /* teste operator += */
@@ -193,6 +194,63 @@ int main() {
 
     for (Nod *p{bl1.begin()}; p != nullptr; p = p->getNext()) {
       std::cout << *p << " ";
+    }
+    std::cout << '\n';
+
+    std::cout << "Testam operatorul ^\n";
+    std::cin >> bl1;
+    bl1 = bl1 ^ 1;
+    std::cout << bl1;
+    bl1 = bl1 ^ 0;
+    std::cout << bl1;
+    std::cin >> bl1;
+    bl1 = bl1 ^ 4;
+    std::cout << bl1;
+
+    std::cout << "\nTestam operatorul[]\n";
+    std::cin >> bl1;
+    int len_bl1 = bl1.lungime();
+    /* urmatoarele 2 teste vor rezulta intr-un mesaj de eroare si programul va
+     * fi inchis */
+    /* std::cout << bl1[-1]; */
+    /* std::cout << bl1[len_bl1]; */
+    for (int i = 0; i < len_bl1; ++i) {
+      std::cout << bl1[i] << " ";
+    }
+    std::cout << '\n';
+    for (int i = 0; i < len_bl1; ++i) {
+      bl1[i].setInfo(2);
+    }
+    for (int i = 0; i < len_bl1; ++i) {
+      std::cout << bl1[i] << " ";
+    }
+    std::cout << '\n';
+
+    std::cout << "\nTeste inversare lista\n";
+    std::cin >> bl1;
+    std::cout << bl1;
+    bl1.inversareLista();
+    std::cout << bl1;
+    bl1.inversareLista();
+    std::cout << bl1;
+
+    std::cout << "\nTeste iterator\n";
+    std::cin >> bl1;
+    bl1.resetareIterator();
+    Nod *it;
+    for (it = bl1.getIterator(); it != nullptr;
+         bl1.next(), it = bl1.getIterator()) {
+      std::cout << *it << " ";
+    }
+    std::cout << '\n';
+    bl1.resetareIterator();
+    for (it = bl1.getIterator(); it != nullptr;
+         bl1.next(), it = bl1.getIterator()) {
+    }
+    bl1.resetareIterator();
+    for (it = bl1.getIterator(); it != nullptr;
+         bl1.next(), it = bl1.getIterator()) {
+      std::cout << *it << " ";
     }
     std::cout << '\n';
   }

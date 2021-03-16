@@ -7,13 +7,41 @@ ListaDubluInlantuita::ListaDubluInlantuita() { /* constructor de initializare */
 }
 
 ListaDubluInlantuita::ListaDubluInlantuita(Nod *head, Nod *tail) {
-  m_head = head;
-  m_tail = tail;
+  if (head != nullptr) {
+    m_head = new Nod(head->getInfo());
+  } else {
+    m_head = nullptr;
+  }
+  if (head != nullptr) {
+    m_tail = new Nod(tail->getInfo());
+  } else {
+    m_tail = nullptr;
+  }
+
   if (head != nullptr)
     m_head->setNext(m_tail);
   if (tail != nullptr)
     m_tail->setPrev(m_head);
   m_iterator = m_head;
+}
+
+ListaDubluInlantuita::ListaDubluInlantuita(const ListaDubluInlantuita &ldi) {
+  /* construim o copie dupa lista ldi */
+  if (ldi.getHead() != nullptr) { /* daca ldi nu este o lista goala */
+    /* adaugam capul si coada listei pentru a se face legatura dubla */
+    this->setHead(ldi.getHead());
+    this->setTail(ldi.getTail());
+    m_head->setNext(m_tail);
+    m_tail->setPrev(m_head);
+
+    /* adaugam celelalte elemente din lista de la coada la cap pentru a le
+     * adauga mereu pe pozitia 1 */
+    Nod *indirect = ldi.getTail()->getPrev();
+    while (indirect != ldi.getHead()) { /* nu vrem sa adaugam capul de 2 ori */
+      this->adaugaElement(indirect->getInfo(), 1);
+      indirect = indirect->getPrev();
+    }
+  }
 }
 
 ListaDubluInlantuita::~ListaDubluInlantuita() {
@@ -25,7 +53,7 @@ ListaDubluInlantuita::~ListaDubluInlantuita() {
     }
     delete m_tail;
   }
-  delete m_iterator;
+  m_iterator = nullptr;
 }
 
 /* metoda publica de adaugare a unui element pe o poziție */

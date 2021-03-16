@@ -15,6 +15,8 @@ public:
   ListaDubluInlantuita();
   /* constructor de initializare cu 2 parametrii (headul si tailul) */
   ListaDubluInlantuita(Nod *head, Nod *tail);
+  /* constructor de copiere */
+  ListaDubluInlantuita(const ListaDubluInlantuita &ldi);
   /* destructor */
   ~ListaDubluInlantuita();
 
@@ -28,8 +30,20 @@ public:
   Nod *begin() { return m_head; }
   Nod *end() { return m_tail; }
 
-  void setHead(const Nod *n = nullptr) { m_head = new Nod(n->getInfo()); }
-  void setTail(const Nod *n = nullptr) { m_tail = new Nod(n->getInfo()); }
+  void setHead(const Nod *n = nullptr) {
+    if (n != nullptr) {
+      m_head = new Nod(n->getInfo());
+    } else {
+      m_head = nullptr;
+    }
+  }
+  void setTail(const Nod *n = nullptr) {
+    if (n != nullptr) {
+      m_tail = new Nod(n->getInfo());
+    } else {
+      m_tail = nullptr;
+    }
+  }
 
   /* metoda de adaugare a unui element el la pozitia poz  el trebuie sa fie de
    * tip integer poz trebuie sa fie un nr natural, indexarea listei se face de
